@@ -50,6 +50,13 @@ class PostsController
     @endforeach
   </table>
 
+  @if(session('message'))
+  <div class="alert alert-danger">
+    {{ session('message') }}
+  </div>
+  <p class="pull-right"><a href="/index" class="btn btn-info">一覧に戻る</a></p>
+  @endif
+
 </div>
 
 @endsection
