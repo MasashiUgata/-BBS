@@ -17,7 +17,7 @@ class PostsController
 
   <!-- あいまい検索 -->
   <div class="search">
-    {!! Form::open(['url' => 'index']) !!}
+    {!! Form::open(['url' => 'search']) !!}
     <div class="form-group">
       {!! Form::input('search','keyword',null,['class'=>'form-search','placeholder'=>'キーワードを入力']) !!}
     </div>

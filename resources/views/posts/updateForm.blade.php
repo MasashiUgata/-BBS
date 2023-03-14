@@ -16,6 +16,8 @@
     </div>
     <button type="submit" class="btn btn-primary pull-right">更新</button>
     {!! Form::close() !!}
+
+    <p class="pull-right"><a href="/index" class="btn btn-info">一覧に戻る</a></p>
   </div>
 
 

@@ -7,22 +7,24 @@ use Illuminate\Support\Facades\DB;
 
 class PostsController extends Controller
 {
-    //ホーム画面表示
-    // public function index()
-    // {
-    //     $list = DB::table('posts')->get();
-    //     return view('posts.index', ['list' => $list]);
-    // }
+    // ホーム画面表示
+    public function index()
+    {
+        $list = DB::table('posts')->get();
+        return view('posts.index', ['list' => $list]);
+    }
 
-    // トップページ兼あいまい検索
-    public function index(Request $request)
+    // あいまい検索実行時
+    public function search(Request $request)
     {
         $list = DB::table('posts')->get();
         $keyword = $request->input('keyword');
 
         if (!empty($keyword)) {
-            $list->where('user_name', 'like', "%{$keyword}%")
-                ->orWhere('contents', 'like', "%{$keyword}%");
+            $list = DB::table('posts')
+                ->where('user_name', 'like', "%{$keyword}%")
+                ->orWhere('contents', 'like', "%{$keyword}%")
+                ->get();
         }
 
         return view('posts.index', ['list' => $list]);
@@ -39,6 +41,14 @@ class PostsController extends Controller
     {
         $user_name = $request->input('newName');
         $contents = $request->input('newContents');
+
+        $request->validate([
+            $user_name => 'required|unique:posts',
+            $contents => 'required|length:{maximum:100}',
+        ], [
+            $user_name . '.required' => '投稿者名を入力してください',
+            $contents . '.required' => '投稿内容を入力してください',
+        ]);
 
         DB::table('posts')->insert([
             'user_name' => $user_name,

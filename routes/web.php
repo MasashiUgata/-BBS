@@ -24,6 +24,9 @@ Route::get('/', function () {
 // トップページ
 Route::get('index', [PostsController::class, 'index']);
 
+// あいまい検索
+Route::post('search', [PostsController::class, 'search']);
+
 // 新規投稿ページ
 Route::get('/create-form', [PostsController::class, 'createForm']);
 
@@ -40,5 +43,5 @@ Route::post('/post/update', [PostsController::class, 'update']);
 Route::get('post/{id}/delete', [PostsController::class, 'delete']);
 
 Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// ログイン時トップページへ以降
+Route::get('/home', [PostsController::class, 'index']);
