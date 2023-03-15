@@ -8,8 +8,9 @@ use Illuminate\Support\Facades\DB;
 class PostsController extends Controller
 {
     // ホーム画面表示
-    public function index()
+    public function index(Request $request)
     {
+        $request->session()->forget('message');
         $list = DB::table('posts')->get();
         return view('posts.index', ['list' => $list]);
     }
@@ -17,6 +18,7 @@ class PostsController extends Controller
     // あいまい検索実行時
     public function search(Request $request)
     {
+        $request->session()->forget('message');
         $list = DB::table('posts')->get();
         $keyword = $request->input('keyword');
 
