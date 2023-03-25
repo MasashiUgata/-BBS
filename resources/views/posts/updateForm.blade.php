@@ -22,6 +22,11 @@
     {!! Form::open(['url' => '/post/update']) !!}
     <div class="form-group">
       {!! Form::hidden('id',$post->id) !!}
+
+      <p class="up-name">投稿者名</p>
+      {!! Form::input('text','upName',$post->user_name,['required','class'=>'form-control']) !!}
+
+      <p class="up-contents">投稿内容</p>
       {!! Form::input('text','upContents',$post->contents,['required','class'=>'form-control']) !!}
     </div>
     <button type="submit" class="btn btn-primary pull-right">更新</button>

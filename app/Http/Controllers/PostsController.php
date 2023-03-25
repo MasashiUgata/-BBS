@@ -47,13 +47,16 @@ class PostsController extends Controller
     public function create(Request $request)
     {
         $request->validate([
-            'newName' => 'required|max:100',
-            'newContents' => 'required|max:100',
+            'newName' => 'required|max:100|regex:/\s+/',
+            'newContents' => 'required|max:100|regex:/\s+/',
         ], [
             'newName.required' => '投稿者名を入力してください',
             'newName.max' => '投稿者名は100文字以内にしてください',
+            'newName.regex' => '投稿者名に全角スペースは使用しないでください',
             'newContents.required' => '投稿内容を入力してください',
-            'newContents.max' => '投稿内容は100文字以内にしてください'
+            'newContents.max' => '投稿内容は100文字以内にしてください',
+            'newContents.regex' => '投稿内容に全角スペースは使用しないでください',
+
         ]);
 
         $user_name = $request->input('newName');
@@ -80,20 +83,27 @@ class PostsController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'upContents' => 'required|max:100',
+            'upName' => 'required|max:100|regex:/\s+/',
+            'upContents' => 'required|max:100|regex:/\s+/',
         ], [
+            'upName.required' => '投稿者名を入力してください',
+            'upName.max' => '投稿者名は100文字以内にしてください',
+            'upName.regex' => '投稿者名に全角スペースは使用しないでください',
             'upContents.required' => '編集内容を入力してください',
-            'upContents.max' => '編集内容は100文字以内にしてください'
+            'upContents.max' => '編集内容は100文字以内にしてください',
+            'upContents.regex' => '編集内容に全角スペースは使用しないでください',
         ]);
 
         $id = $request->input('id');
+        $up_name = $request->input('upName');
         $up_contents = $request->input('upContents');
 
         DB::table('posts')
             ->where('id', $id)
-            ->update(
-                ['contents' => $up_contents],
-            );
+            ->update([
+                'user_name' => $up_name,
+                'contents' => $up_contents
+            ]);
         return redirect('/index');
     }
 
